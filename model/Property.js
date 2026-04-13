@@ -6,62 +6,59 @@ const propertySchema = new mongoose.Schema({
     host: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        //require: true,
+        required: true,
     },
     title: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
 
     },
     description: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
 
     },
     address: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
 
     },
     city: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
 
     },
     country: {
         type: String,
-        require: true,
+        required: true,
         trim: true,
 
     },
     pricePerNight: {
         type: Number,
-        require: true,
-        trim: true,
+        required: true,
+        
 
     },
     bedrooms: {
         type: Number,
-        require: true,
-        trim: true,
+        required: true,
         min: 0,
 
     },
     bathrooms: {
         type: Number,
-        require: true,
-        trim: true,
+        required: true,
         min: 0,
 
     },
     maxGuest: {
         type: Number,
-        require: true,
-        trim: true,
+        required: true,
         min: 1,
     },
     amenities: {
@@ -71,7 +68,7 @@ const propertySchema = new mongoose.Schema({
     },
     images: {
         type: [String],
-        require: true,
+        required: true,
 
     },
     isAvailable: {
@@ -85,6 +82,6 @@ const propertySchema = new mongoose.Schema({
 
 //modal
 
-const Property = mongoose.model("user", propertySchema);
+const Property = mongoose.model("Property", propertySchema);
 
-module.exports =  Property 
+module.exports =  Property

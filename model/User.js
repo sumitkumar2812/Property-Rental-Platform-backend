@@ -21,8 +21,8 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'host', 'admin'], // Users can be guests, property hosts, or administrators
-        default: 'user'
+        enum: ['tenant', 'owner'], // Users can be guests, property hosts, or administrators
+        default: 'tenant'
     }
 }, {
     timestamps: true // Adds createdAt and updatedAt timestamps
@@ -36,10 +36,6 @@ UserSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
     next()
 });
-
-UserSchema.methods.matchPassword = async function (enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password)
-};
 
 
 
