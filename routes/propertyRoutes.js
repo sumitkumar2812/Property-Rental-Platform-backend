@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { createProperty, getAllProperties ,getMyProperties, deleteProperty, updateProperty} = require("../controllers/propertyController");
+const { createProperty, getAllProperties ,getMyProperties, getPropertyById, deleteProperty, updateProperty} = require("../controllers/propertyController");
 const { protect } = require("../middleware/authMiddleware");
 
 router.get("/", getAllProperties);
 
 router.get("/my-properties", protect, getMyProperties);
+
+router.get("/:id", getPropertyById);
 
 router.post("/", protect, createProperty);
 

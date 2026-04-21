@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 //schema
 
+
 const propertySchema = new mongoose.Schema({
     host: {
         type: mongoose.Schema.Types.ObjectId,
@@ -14,68 +15,40 @@ const propertySchema = new mongoose.Schema({
         trim: true,
 
     },
+    location : {
+        type: String,
+        required: true,
+        trim: true,
+
+    },
+    price:{
+        type:Number,
+        required:true,
+        trim:true,
+
+    },
+     image: {
+        type: [String],
+        required: true,
+
+    },
     description: {
         type: String,
         required: true,
         trim: true,
 
     },
-    address: {
-        type: String,
-        required: true,
-        trim: true,
-
-    },
-    city: {
-        type: String,
-        required: true,
-        trim: true,
-
-    },
-    country: {
-        type: String,
-        required: true,
-        trim: true,
-
-    },
-    pricePerNight: {
-        type: Number,
-        required: true,
-        
-
-    },
     bedrooms: {
         type: Number,
         required: true,
         min: 0,
-
     },
     bathrooms: {
         type: Number,
         required: true,
         min: 0,
-
     },
-    maxGuest: {
-        type: Number,
-        required: true,
-        min: 1,
-    },
-    amenities: {
-        type: [String],
-        default: [],
-
-    },
-    images: {
-        type: [String],
-        required: true,
-
-    },
-    isAvailable: {
-        type: Boolean,
-        default: true,
-
-    },
+   
     
 },{timestamps: true})
 

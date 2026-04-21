@@ -29,19 +29,29 @@ const getMyProperties = async (req, res) => {
     }
 }
 
+const getPropertyById = async (req, res) => {
+
+    try {
+        const property = await Property.findById(req.params.id);
+        if(!property) {
+            return res.status(404).json({message: "Property not found."})
+        }
+        return res.json(property);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
+
 const deleteProperty = async (req, res) => {
 
     try {
         const property = await Property.findById(req.params.id);
-
         if(!property) {
             return res.status(404).json({message: "Property not found."})
         }
-
         if(property.host.toString() !== req.user.id) {
             res.status(401).json({message: "User not Authorized to delete this Property"})
         }
-
         await property.deleteOne();
         res.status(200).json({message: "Property Deleted Successfully."})
     } catch (error) {
@@ -72,4 +82,4 @@ const updateProperty = async (req, res) => {
     }
 }
 
-module.exports = {updateProperty, createProperty, getAllProperties, getMyProperties, deleteProperty}
+module.exports = {createProperty, getAllProperties ,getMyProperties, getPropertyById, deleteProperty, updateProperty}
