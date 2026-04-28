@@ -11,14 +11,35 @@ const createProperty = async (req, res) => {
 }
 
 
+// propertyController.js mein getAllProperties ko update karo
 const getAllProperties = async (req, res) => {
     try {
-        const properties = await Property.find().populate("host", "name email")
-        res.status(201).json(properties)
+        const { city, minPrice, maxPrice, bedrooms } = req.query;
+        let queryObject = {};
+
+        // 1. City Filter (Case-insensitive search)
+        if (city) {
+            queryObject.location = { $regex: city, $options: 'i' };
+        }
+
+        // 2. Price Range Filter
+        if (minPrice || maxPrice) {
+            queryObject.price = {};
+            if (minPrice) queryObject.price.$gte = Number(minPrice);
+            if (maxPrice) queryObject.price.$lte = Number(maxPrice);
+        }
+
+        // 3. Bedrooms Filter
+        if (bedrooms) {
+            queryObject.bedrooms = bedrooms;
+        }
+
+        const properties = await Property.find(queryObject);
+        res.status(200).json(properties);
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json({ message: "Server Error" });
     }
-}
+};
 
 const getMyProperties = async (req, res) => {
     try {
