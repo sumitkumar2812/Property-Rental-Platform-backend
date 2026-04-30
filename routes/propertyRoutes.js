@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { createProperty, getAllProperties ,getMyProperties, getPropertyById, deleteProperty, updateProperty} = require("../controllers/propertyController");
 const { protect } = require("../middleware/authMiddleware");
+const { upload } = require("../config/cloudinaryConfig")
 
 router.get("/", getAllProperties);
 
@@ -9,7 +10,7 @@ router.get("/my-properties", protect, getMyProperties);
 
 router.get("/:id", getPropertyById);
 
-router.post("/", protect, createProperty);
+router.post("/", protect, upload.single("image"), createProperty);
 
 router.delete("/:id", protect, deleteProperty)
 
