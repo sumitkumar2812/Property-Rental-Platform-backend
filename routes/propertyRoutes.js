@@ -10,6 +10,7 @@ router.get("/my-properties", protect, getMyProperties);
 
 router.get("/:id", getPropertyById);
 
+
 router.post("/", protect, upload.single("image"), createProperty);
 
 router.delete("/:id", protect, deleteProperty)

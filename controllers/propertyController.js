@@ -2,9 +2,23 @@ const Property = require("../model/Property")
 
 const createProperty = async (req, res) => {
     try {
-        const propertyData = {...req.body, host: req.user._id}
-        const property = await Property.create(propertyData)
-        res.status(201).json({message : "Property Listed Successfully", property})
+        const {title, location, price, description, bedrooms, bathrooms} = req.body;
+        if (!req.file) {
+            return res.status(400).json({message: "Please Upload an Image"})
+        }
+        const imageUrl = req.file.path;
+        console.log(imageUrl)
+        const newProperty = new Property ({
+            title,
+            location,
+            price,
+            description,
+            bedrooms,
+            bathrooms,
+            image: imageUrl
+        })
+        const savedProperty = await newProperty.save()
+        res.status(201).json({message : "Property Listed Successfully", savedProperty})
     } catch (error) {
         res.status(500).json({mesage: error.message})
     }
