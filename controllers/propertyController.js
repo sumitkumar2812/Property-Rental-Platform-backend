@@ -15,7 +15,8 @@ const createProperty = async (req, res) => {
             description,
             bedrooms,
             bathrooms,
-            image: imageUrl
+            image: imageUrl,
+            host: req.user._id
         })
         const savedProperty = await newProperty.save()
         res.status(201).json({message : "Property Listed Successfully", savedProperty})
