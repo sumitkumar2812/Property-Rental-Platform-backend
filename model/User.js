@@ -15,6 +15,10 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         lowercase: true // Store emails in lowercase for consistency
     },
+    mobile:{
+        type: String,
+        required:true
+    },
     password: {
         type: String,
         required: true
