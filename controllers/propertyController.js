@@ -49,7 +49,7 @@ const getAllProperties = async (req, res) => {
             queryObject.bedrooms = bedrooms;
         }
 
-        const properties = await Property.find(queryObject);
+        const properties = await Property.find(queryObject).lean();
         res.status(200).json(properties);
     } catch (error) {
         res.status(500).json({ message: "Server Error" });
@@ -75,14 +75,16 @@ const getMyProperties = async (req, res) => {
 
         // 3. Bedrooms Filter
         if (bedrooms) {
+            
             queryObject.bedrooms = bedrooms;
         }
-        const properties = await Property.find(queryObject)
+        const properties = await Property.find(queryObject).lean()
         res.status(201).json(properties)
     } catch (error) {
-        res.status(500).json({message: error.message})
+        res.status(500).json( {message: error.message} );
     }
 }
+
 
 const getPropertyById = async (req, res) => {
 
