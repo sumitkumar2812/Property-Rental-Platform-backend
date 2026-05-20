@@ -6,6 +6,10 @@ const createProperty = async (req, res) => {
         if (!req.file) {
             return res.status(400).json({message: "Please Upload an Image"})
         }
+        console.log("=== INCOMING FRONTEND DATA ===");
+        console.log("Body Data:", req.body);
+        console.log("Uploaded File:", req.file);
+
         const imageUrl = req.file.path;
         console.log(imageUrl)
         const newProperty = new Property ({
@@ -21,6 +25,7 @@ const createProperty = async (req, res) => {
         const savedProperty = await newProperty.save()
         res.status(201).json({message : "Property Listed Successfully", savedProperty})
     } catch (error) {
+        console.error("CRITICAL BACKEND ERROR:", error);
         res.status(500).json({mesage: error.message})
     }
 }
