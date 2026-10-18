@@ -2,16 +2,28 @@ const Property = require("../model/Property")
 
 const createProperty = async (req, res) => {
     try {
-        const {title, location, price, description, bedrooms, bathrooms} = req.body;
-        if (!req.file) {
-            return res.status(400).json({message: "Please Upload an Image"})
+        const {title, location, price, description, bedrooms, bathrooms, amenities} = req.body;
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({message: "Please Upload Images"})
         }
         console.log("=== INCOMING FRONTEND DATA ===");
         console.log("Body Data:", req.body);
-        console.log("Uploaded File:", req.file);
+        console.log("Uploaded File:", req.files);
 
-        const imageUrl = req.file.path;
-        console.log(imageUrl)
+        const imageUrls = req.files.map(file => file.path || file.url || file.secure_url);
+        console.log(imageUrls)
+
+        let parsedAmenities = amenities;
+        
+        if (typeof amenities === "string"){
+            try {
+                parsedAmenities = JSON.parse(amenities)
+            } catch (err) {
+                parsedAmenities = amenities.split(",").map(item => item.trim());
+            }
+        }
+
+
         const newProperty = new Property ({
             title,
             location,
@@ -19,14 +31,15 @@ const createProperty = async (req, res) => {
             description,
             bedrooms,
             bathrooms,
-            image: imageUrl,
+            amenities: parsedAmenities || [],
+            images: imageUrls,
             host: req.user._id
         })
         const savedProperty = await newProperty.save()
-        res.status(201).json({message : "Property Listed Successfully", savedProperty})
+        return res.status(201).json({message : "Property Listed Successfully", savedProperty})
     } catch (error) {
         console.error("CRITICAL BACKEND ERROR:", error);
-        res.status(500).json({mesage: error.message})
+        return res.status(500).json({message: error.message})
     }
 }
 

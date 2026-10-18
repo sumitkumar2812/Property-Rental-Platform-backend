@@ -32,6 +32,16 @@ const propertySchema = new mongoose.Schema({
         required: true,
 
     },
+    images: [{
+        type: {String},
+        required: true,
+    
+    }],
+    amenities: [{
+        type: {String},
+        required: true,
+        
+    }],
     description: {
         type: String,
         required: true,

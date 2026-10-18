@@ -23,7 +23,6 @@ const connectDB = async () => {
 
 connectDB()
 
-
 app.get("/", (req, res)=>{
     
     res.send("API for Testing...")
