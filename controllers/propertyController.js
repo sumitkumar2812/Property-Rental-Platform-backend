@@ -164,10 +164,10 @@ const updateProperty = async (req, res) => {
         const updateData = {
             title: req.body.title,
             location: req.body.location,
-            price: Number(req.body.price),
+            price: req.body.price,
             description: req.body.description,
-            bedrooms: Number(req.body.bedrooms),
-            bathrooms: Number(req.body.bathrooms),
+            bedrooms: req.body.bedrooms,
+            bathrooms: req.body.bathrooms,
             images: finalImages, 
             amenities: amenities  
         };
