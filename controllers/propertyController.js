@@ -145,14 +145,38 @@ const updateProperty = async (req, res) => {
         }
 
         if(property.host.toString() !== req.user.id) {
-            res.status(401).json({message: "User not Authorized to update this Property"})
+           return res.status(401).json({message: "User not Authorized to update this Property"})
         }
 
-        property = await Property.findByIdAndUpdate(req.params.id, req.body, {
+        let existingImages = req.body.existingImages ? JSON.parse(req.body.existingImages) : [];
+        let amenities = req.body.amenities ? JSON.parse(req.body.amenities) : [];
+
+        let newImageUrls = [];
+        if (req.files && req.files.length > 0) {
+            for (let file of req.files) {
+                newImageUrls.push(file.path); 
+            }
+        }
+
+        const finalImages = [...existingImages, ...newImageUrls];
+
+        
+        const updateData = {
+            title: req.body.title,
+            location: req.body.location,
+            price: Number(req.body.price),
+            description: req.body.description,
+            bedrooms: Number(req.body.bedrooms),
+            bathrooms: Number(req.body.bathrooms),
+            images: finalImages, 
+            amenities: amenities  
+        };
+
+        property = await Property.findByIdAndUpdate(req.params.id, updateData, {
             new: true,
             runValidators:true,
         })
-        res.status(200).json({message: "Property Updated Successfully."})
+        res.status(200).json({message: "Property Updated Successfully.", updatedProperty: property})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
