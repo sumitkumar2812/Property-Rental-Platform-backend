@@ -148,6 +148,12 @@ const updateProperty = async (req, res) => {
            return res.status(401).json({message: "User not Authorized to update this Property"})
         }
 
+        const numericPrice = req.body.price;
+
+        if(!Number.isFinite(numericPrice) || numericPrice <= 0){
+            return res.status(400).json({message: "Please Provide a Valid Price."})
+        }
+
         let existingImages = req.body.existingImages ? JSON.parse(req.body.existingImages) : [];
         let amenities = req.body.amenities ? JSON.parse(req.body.amenities) : [];
 
@@ -164,7 +170,7 @@ const updateProperty = async (req, res) => {
         const updateData = {
             title: req.body.title,
             location: req.body.location,
-            price: req.body.price,
+            price: numericPrice,
             description: req.body.description,
             bedrooms: req.body.bedrooms,
             bathrooms: req.body.bathrooms,
