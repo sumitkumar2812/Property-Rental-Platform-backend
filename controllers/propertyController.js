@@ -138,6 +138,9 @@ const deleteProperty = async (req, res) => {
 const updateProperty = async (req, res) => {
 
     try {
+
+        
+
         let property = await Property.findById(req.params.id);
 
         if(!property) {
@@ -148,7 +151,10 @@ const updateProperty = async (req, res) => {
            return res.status(401).json({message: "User not Authorized to update this Property"})
         }
 
-        const numericPrice = req.body.price;
+        const numericPrice = Number(req.body.price);
+        console.log("--- DEBUGGING UPDATE ---");
+        console.log("req.body:", req.body);
+        console.log("Raw price from req.body:", req.body.price, typeof req.body.price);  
 
         if(!Number.isFinite(numericPrice) || numericPrice <= 0){
             return res.status(400).json({message: "Please Provide a Valid Price."})
@@ -172,8 +178,8 @@ const updateProperty = async (req, res) => {
             location: req.body.location,
             price: numericPrice,
             description: req.body.description,
-            bedrooms: req.body.bedrooms,
-            bathrooms: req.body.bathrooms,
+            bedrooms: Number(req.body.bedrooms),
+            bathrooms: Number(req.body.bathrooms),
             images: finalImages, 
             amenities: amenities  
         };
