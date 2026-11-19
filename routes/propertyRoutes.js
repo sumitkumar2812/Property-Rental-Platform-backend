@@ -15,7 +15,7 @@ router.post("/", protect, uploadMultiple, createProperty);
 
 router.delete("/:id", protect, deleteProperty)
 
-router.put("/:id", protect, updateProperty);
+router.put("/:id", protect, uploadMultiple, updateProperty);
 module.exports = router;
 
 
